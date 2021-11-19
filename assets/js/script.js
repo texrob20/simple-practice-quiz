@@ -77,11 +77,13 @@ function displayTime(){
 function saveScore() {
     //localStorage.setItem("score", JSON.stringify(score));
     console.log("score saved")
+    document.getElementById("title").innerHTML = "";
     document.getElementById("question").innerHTML = "";
     document.getElementById("possAns1").innerHTML = "";
     document.getElementById("possAns2").innerHTML = "";
     document.getElementById("possAns3").innerHTML = "";
     document.getElementById("possAns4").innerHTML = "";
+    timer=0;
 };
 
 var loadScore = function() {
@@ -100,6 +102,9 @@ var loadScore = function() {
 
 function executeQuiz(){
     var time = setInterval(displayTime, 1000);
+    document.getElementById("preQuizTitle").innerHTML = "";
+    document.getElementById("info").innerHTML = "";
+    document.getElementById("start").innerHTML = "";
  
     DisplayQuestion();
 }
