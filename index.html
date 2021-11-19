@@ -5,12 +5,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Click Counter</title>
+  <title>Coding Quiz</title>
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
+<div class="timer">Time Left:<p id="timeLeft"></p></div>  
+<div class="quizInfo">
+  <div class="preQuizInfo"><span>Coding Quiz Challenge</span></div>
+  <div class="info"><span>Try to answer the following code-related questions within the allotted time. 
+    An incorrect answer will be penalized with a deduction in time.  A correct answer will be rewarded
+    with 5 points.</span></div>
+</div>  
+<div class="start_btn"><button>Start Quiz</button></div>  
 
+<!-- The quiz runs here-->
+<div class="quiz">
+  <header>
+    <div class="title">Coding Quiz</div>
+</header>
+<section>
+    <div id="question">
+        <!-- Here I've inserted question from JavaScript -->
+    </div>
+    <div id="possAns">
+        <!-- Here I've inserted options from JavaScript -->
+    </div>
+</section>
+</div>
   
 <script src="./assets/js/script.js"></script>
 </body>
