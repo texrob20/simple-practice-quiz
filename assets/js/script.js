@@ -1,63 +1,66 @@
 // question set
-var codeQuestions = [
+const codeQuestions = [
     {
         identifier: 1,
-        question: "What is the correct syntax to incorporate javascript into html?",
-        answer: "<script src='../js/script.js'></script>",
-        options: [
-            "<script src='../js/script.js'></script>",
-            "<script img='../js/script.js'></script>",
-            "<script src='../js.script.java'></script>",
-            "<script src='../js/script.js'><script>",
-        ]    
+        question: "What does CSS stand for",
+        answer: "Cascading Style Sheet",
+        option1: "Cascading Support Sheet",
+        option2: "Cascading Style Sheet",
+        option3: "Colorful Style Sheet",
+        option4: "Colorful Support Sheet",    
     },
     {
         identifier: 2,
         question: "What does HTML stand for",
         answer: "Hypertext Markup Language",
-        options: [
-            "Hyberbole Markup Language",
-            "Hypertext Mobile Language",
-            "Hypertext Markup Language",
-            "Hypertext Madeup Language",
-        ]    
+        option1: "Hyberbole Markup Language",
+        option2: "Hypertext Mobile Language",
+        option3: "Hypertext Markup Language",
+        option4: "Hypertext Madeup Language",
     },
     {
         identifier: 3,
         question: "What is the correct syntax to add a title to a webpage?",
-        answer: "<title></title>",
-        options: [
-            "<header></header>",
-            "<head></head>",
-            "<div class='title'></div>",
-            "<title></title>",
-        ]    
+        answer: "title",
+        option1: "header",
+        option2: "head",
+        option3: "class=title",
+        option4: "title",
     },
     {
         identifier: 4,
         question: "What code is used in CSS to support various screens",
         answer: "media query",
-        options: [
-            "screen query",
-            "media query",
-            "screen size",
-            "media width",
-        ]    
+        option1: "screen query",
+        option2: "media query",
+        option3: "screen size",
+        option4: "media width",
     },
 ];
-var answerIdCounter = 0;
-var body = document.body;
-var defaultTime = 5;
-var start_btn = document.querySelector(".start_btn button");
-var quizInfo = document.querySelector(".quizInfo");
-var quiz = document.querySelector(".quiz");
-var timer = defaultTime;
-var ansSelect = document.querySelector("answers");
-var optionsEl = document.createDocumentFragment("div");
-var listEl = document.createElement("h3");
 
-body.appendChild(optionsEl);
-optionsEl.appendChild(listEl);
+var defaultTime = 45;
+var start_btn = document.querySelector(".start_btn button");
+var timer = defaultTime;
+var counter = 0;
+var score = 0;
+var userScore = {
+    user: "",
+    finalScore: 0,
+};
+var Clicked = function() {
+    console.log(this.id, this.innerHTML);
+    console.log(codeQuestions[counter].answer);
+    if (this.innerHTML == codeQuestions[counter].answer) {
+        console.log ("add 10 points");
+        score +=10;
+    } else {
+        console.log ("subtract 10 sec");
+        timer -=10;
+    }
+    console.log("counter " + counter);    
+    counter ++;
+    DisplayQuestion();
+}
 
 function displayTime(){
     if (timer > 0) {
@@ -71,16 +74,14 @@ function displayTime(){
 
     console.log(timer);
 }
-
-function checkAnswer(){
-    if (ansSelect === codeQuestions[i].answer) {
-        score = +10;
-    } else { timer = -10;
-    }
-}
-
-var saveScore = function() {
-    localStorage.setItem("score", JSON.stringify(score));
+function saveScore() {
+    //localStorage.setItem("score", JSON.stringify(score));
+    console.log("score saved")
+    document.getElementById("question").innerHTML = "";
+    document.getElementById("possAns1").innerHTML = "";
+    document.getElementById("possAns2").innerHTML = "";
+    document.getElementById("possAns3").innerHTML = "";
+    document.getElementById("possAns4").innerHTML = "";
 };
 
 var loadScore = function() {
@@ -99,25 +100,35 @@ var loadScore = function() {
 
 function executeQuiz(){
     var time = setInterval(displayTime, 1000);
-    
-    for (var i=0; i < codeQuestions.length; i++) {
-        var questionEl = document.createElement("div");
-        questionEl.className = "question";
-        questionEl.setAttribute("data-task-id", answerIdCounter);
-        var optionEl = "";
-        questionEl = codeQuestions[i].question;
-        document.getElementById("question").innerHTML = "<h2>" + questionEl + "</h2>";
-        console.log(questionEl);
-        for (var j=0; j < codeQuestions[i].options.length; j++) {
-            optionEl = codeQuestions[i].options[j];
-            document.getElementById("possAns").innerHTML = "<h3>" + optionEl + "</h3>";
-            console.log(optionEl);
-        }
-        answerIdCounter ++;
-        //console.log(codeQuestions[i]);
-        //ansSelect.addEventListener("click", checkAnswer);
-    }
-} 
+ 
+    DisplayQuestion();
+}
+
+function DisplayQuestion () {
+    if (counter === codeQuestions.length){
+       saveScore();
+    } else {
+        let displayQuestion = "";
+        displayQuestion += codeQuestions[counter].question;
+        document.getElementById("question").innerHTML = displayQuestion;
+        let option1 ="";
+        option1 += codeQuestions[counter].option1;
+        document.getElementById("possAns1").innerHTML = option1;
+        document.getElementById("possAns1").onclick = Clicked;
+        let option2 ="";
+        option2 += codeQuestions[counter].option2;
+        document.getElementById("possAns2").innerHTML = option2;
+        document.getElementById("possAns2").onclick = Clicked;
+        let option3 ="";
+        option3 += codeQuestions[counter].option3;
+        document.getElementById("possAns3").innerHTML = option3;
+        document.getElementById("possAns3").onclick = Clicked;
+        let option4 ="";
+        option4 += codeQuestions[counter].option4;
+        document.getElementById("possAns4").innerHTML = option4;
+        document.getElementById("possAns4").onclick = Clicked;
+}};
+ 
 
 // Add event listener to start quiz button
 start_btn.addEventListener("click", executeQuiz);
