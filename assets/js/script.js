@@ -46,6 +46,8 @@ var counter = 0;
 var score = 0;
 var savedUsers = [];
 var savedScores =[];
+var i=0;
+
 
 // action taken when answer selected
 var Clicked = function() {
@@ -112,16 +114,29 @@ function presentScore() {
 };
 
 function loadScore () {
-    console.log("clicked");
-    document.getElementById("showScores").setAttribute("class", "showScores");
+    console.log("clicked");    
+    document.getElementById("scoreTitle").innerHTML = "";
+    document.getElementById("indScore").innerHTML = "";    
+    var scoreTitle = document.getElementById("scoreTitle");
+    var list = document.getElementById("indScore");
     savedUsers = JSON.parse(localStorage.getItem("savedUsers"));
     savedScores = JSON.parse(localStorage.getItem("savedScores"));
     if (!savedScores) {
       window.alert("There are no scores at this time!  Take the quiz to test your knowledge.");
     } else {
-        for (var i = 0; i < savedScores.length; i++) {
-            document.getElementById("showScores").innerHTML = savedScores[i];
-    }}
+        document.getElementById("showScores").setAttribute("class", "showScores");
+        var title = document.getElementById("scoreTitle");
+        scoreTitle = document.createElement("h2");
+        scoreTitle.innerText = "High Scores";
+        title.appendChild(scoreTitle);
+        for (i = 0; i < savedScores.length; i++) {
+            var li = document.createElement("div");
+            li = document.createElement("div");
+            li.innerText = savedUsers[i] + ": " + savedScores[i];
+            list.appendChild(li);            
+    }
+    console.log("print list");
+    }
 
 };
 

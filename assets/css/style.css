@@ -48,16 +48,20 @@ justify-content: space-between;
 } 
 .showScores {
     display: flex;
+	flex-direction: column;
     justify-content: center;
+	text-align: center;
     background-color: rgb(1, 5, 219);
 	color:#fff;
     border-radius: 3px;
 	padding: 20px;
 	cursor: pointer;
 	margin: 20px auto;
-	width: 30%;
+	width: 20%;
 }
-
+.indScore {
+	
+}
 .hidden {
 	color: #fff;
 }
