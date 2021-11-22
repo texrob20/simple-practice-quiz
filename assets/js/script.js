@@ -2,43 +2,43 @@
 const codeQuestions = [
     {
         identifier: 1,
-        question: "What does CSS stand for",
-        answer: "Cascading Style Sheet",
-        option1: "Cascading Support Sheet",
-        option2: "Cascading Style Sheet",
-        option3: "Colorful Style Sheet",
-        option4: "Colorful Support Sheet",    
+        question: "Commonly used data types do NOT include",
+        answer: "alerts",
+        option1: "strings",
+        option2: "arrays",
+        option3: "alerts",
+        option4: "boolean",    
     },
     {
         identifier: 2,
-        question: "What does HTML stand for",
-        answer: "Hypertext Markup Language",
-        option1: "Hyberbole Markup Language",
-        option2: "Hypertext Mobile Language",
-        option3: "Hypertext Markup Language",
-        option4: "Hypertext Madeup Language",
+        question: "What DOM command takes action when an item is clicked?",
+        answer: "addEventListener",
+        option1: "addEventCommand",
+        option2: "addEventAction",
+        option3: "addEventClick",
+        option4: "addEventListener",
     },
     {
         identifier: 3,
-        question: "What is the correct syntax to add a title to a webpage?",
-        answer: "title",
-        option1: "header",
-        option2: "head",
-        option3: "class=title",
-        option4: "title",
+        question: "What command can trigger a function?",
+        answer: "onClick",
+        option1: "onClick",
+        option2: "function",
+        option3: "action",
+        option4: "clicked",
     },
     {
         identifier: 4,
-        question: "What code is used in CSS to support various screens",
-        answer: "media query",
-        option1: "screen query",
-        option2: "media query",
-        option3: "screen size",
-        option4: "media width",
+        question: "What DOM command does NOT adds HTML code?",
+        answer: "querySelector",
+        option1: "setAttribute",
+        option2: "createElement",
+        option3: "innerHTML",
+        option4: "querySelector",
     },
 ];
 
-var defaultTime = 45;
+var defaultTime = 15;
 var start_btn = document.querySelector(".start_btn button");
 var highscore = document.querySelector(".highScore button");
 var timer = defaultTime;
@@ -47,12 +47,12 @@ var score = 0;
 var savedUsers = [];
 var savedScores =[];
 var i=0;
+var timeOver = 0;
 
 
 // action taken when answer selected
 var Clicked = function() {
-    console.log(this.id, this.innerHTML);
-    console.log(codeQuestions[counter].answer);
+
     //check to see if answer is correct or not
     if (this.innerHTML == codeQuestions[counter].answer) {
         console.log ("add 10 points");
@@ -74,15 +74,17 @@ function displayTime(){
     if (timer > 0) {
     document.getElementById("timeLeft").innerText = timer;
     timer--; }
-    else {
+    else if (timeOver != 1) {
     timer = "Quiz over";
     document.getElementById("timeLeft").innerText = timer;
+    presentScore();
+    timeOver = 1;
     return;
-    }
+    } else {
+        return;
+    }}
 
-    console.log(timer);
-}
-
+// hide last question after quiz ends
 function hideQuestions () {
     document.getElementById("title").innerHTML = "";
     document.getElementById("question").innerHTML = "";
@@ -97,24 +99,21 @@ function hideQuestions () {
     document.getElementById("possAns4").setAttribute("class", "hidden");
 }
 
-// once all questions answered, clears questions and saves score
+// once all questions answered, clears questions, inputs initials, and saves score
 function presentScore() {
     console.log("score saved");
-    var userName = window.prompt ("Your score is " + score +". Please enter your name.");
+    var userName = window.prompt ("Your score is " + score +". Please enter your initials.");
     hideQuestions();
     timer=0;
     savedUsers.push(userName);
     localStorage.setItem("savedUsers", JSON.stringify(savedUsers));
     savedScores.push(score);
     localStorage.setItem("savedScores", JSON.stringify(savedScores));
-
-    //}
-    console.log(savedUsers);
-    console.log(savedScores);
+    resetQuiz();
 };
 
+// loads the saved scores and displays when button clicked
 function loadScore () {
-    console.log("clicked");    
     document.getElementById("scoreTitle").innerHTML = "";
     document.getElementById("indScore").innerHTML = "";    
     var scoreTitle = document.getElementById("scoreTitle");
@@ -123,7 +122,7 @@ function loadScore () {
     savedScores = JSON.parse(localStorage.getItem("savedScores"));
     if (!savedScores) {
       window.alert("There are no scores at this time!  Take the quiz to test your knowledge.");
-    } else {
+    } else { //displays scores
         document.getElementById("showScores").setAttribute("class", "showScores");
         var title = document.getElementById("scoreTitle");
         scoreTitle = document.createElement("h2");
@@ -135,13 +134,14 @@ function loadScore () {
             li.innerText = savedUsers[i] + ": " + savedScores[i];
             list.appendChild(li);            
     }
-    console.log("print list");
-    }
-
-};
+    resetQuiz();
+    }};
 
 // based on button click, starts quiz and timer
 function executeQuiz(){
+    timer = defaultTime;
+    timeOver = 0;
+    counter = 0;
     var time = setInterval(displayTime, 1000);
     document.getElementById("quizInfo").setAttribute ("class", "hidden");
     document.getElementById("preQuizTitle").innerHTML = "";
@@ -152,19 +152,18 @@ function executeQuiz(){
 
     savedUsers = JSON.parse(localStorage.getItem("savedUsers"));
     savedScores = JSON.parse(localStorage.getItem("savedScores"));
-    if (!savedUsers) {
+    if (!savedUsers) { //avoids null error in saved scores
         savedUsers = [];
         savedScores = [];
     } 
-    console.log(savedUsers);
-    console.log(savedScores);
-    
     DisplayQuestion();
 }
 
 // function runs through question set
 function DisplayQuestion () {
-    if (counter === codeQuestions.length){
+
+    if (counter === codeQuestions.length) {
+       timeOver = 1; 
        presentScore();
     } else {
         let displayQuestion = "";
@@ -191,10 +190,18 @@ function DisplayQuestion () {
         document.getElementById("possAns4").innerHTML = option4;
         document.getElementById("possAns4").onclick = Clicked;
         document.getElementById("possAns4").setAttribute("class", "option");
-}};
- 
+    }
+
+};
+
+// resets quiz if user wants to take it again
+function resetQuiz (){
+    document.getElementById("start").innerHTML = "<button>Retake Quiz</button>";
+    start_btn = document.querySelector(".start_btn button");
+    start_btn.addEventListener("click", executeQuiz);
+}
 
 // Add event listener to start quiz button
 start_btn.addEventListener("click", executeQuiz);
-
+// add event listener to show saved scores
 highscore.addEventListener("click", loadScore);
