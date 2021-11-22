@@ -10,7 +10,10 @@
 </head>
 
 <body>
-<div class="timer">Time Left:<span id="timeLeft"></span></div>  
+<div class="hero">
+  <div class="highScore" id="highScore"><button>High Scores</button></div>
+  <div class="timer">Time Left: <span id="timeLeft"></span></div>  
+</div>
 <div class="quizInfo" id="quizInfo">
   <div class="preQuizInfo" id="preQuizTitle"><span>Coding Quiz Challenge</span></div>
   <div class="info" id="info"><span>Try to answer the following code-related questions within the allotted time. 
@@ -32,7 +35,9 @@
     <div class="hidden" id="possAns4"></div>
 </section>
 </div>
-  
+<div class="hidden" id="showScores">
+
+</div>  
 <script src="./assets/js/script.js"></script>
 </body>
 </html>

@@ -40,13 +40,13 @@ const codeQuestions = [
 
 var defaultTime = 45;
 var start_btn = document.querySelector(".start_btn button");
+var highscore = document.querySelector(".highScore button");
 var timer = defaultTime;
 var counter = 0;
 var score = 0;
-var userScore = {
-    user: "",
-    finalScore: 0,
-};
+var savedUsers = [];
+var savedScores =[];
+
 // action taken when answer selected
 var Clicked = function() {
     console.log(this.id, this.innerHTML);
@@ -81,10 +81,7 @@ function displayTime(){
     console.log(timer);
 }
 
-// once all questions answered, clears questions and saves score
-function Score() {
-    console.log("score saved");
-    var user = window.prompt ("Your score is " + score +". Please enter your name.");
+function hideQuestions () {
     document.getElementById("title").innerHTML = "";
     document.getElementById("question").innerHTML = "";
     document.getElementById("question").setAttribute("class", "hidden");
@@ -96,25 +93,36 @@ function Score() {
     document.getElementById("possAns3").setAttribute("class", "hidden");
     document.getElementById("possAns4").innerHTML = "";
     document.getElementById("possAns4").setAttribute("class", "hidden");
-    timer=0;
-    function saveScore(){
+}
 
-    }
-    console.log(user);
+// once all questions answered, clears questions and saves score
+function presentScore() {
+    console.log("score saved");
+    var userName = window.prompt ("Your score is " + score +". Please enter your name.");
+    hideQuestions();
+    timer=0;
+    savedUsers.push(userName);
+    localStorage.setItem("savedUsers", JSON.stringify(savedUsers));
+    savedScores.push(score);
+    localStorage.setItem("savedScores", JSON.stringify(savedScores));
+
+    //}
+    console.log(savedUsers);
+    console.log(savedScores);
 };
 
-var loadScore = function() {
-    var savedScores = localStorage.getItem("score");
+function loadScore () {
+    console.log("clicked");
+    document.getElementById("showScores").setAttribute("class", "showScores");
+    savedUsers = JSON.parse(localStorage.getItem("savedUsers"));
+    savedScores = JSON.parse(localStorage.getItem("savedScores"));
     if (!savedScores) {
-      return false;
-    }
-    console.log("No scores!");
+      window.alert("There are no scores at this time!  Take the quiz to test your knowledge.");
+    } else {
+        for (var i = 0; i < savedScores.length; i++) {
+            document.getElementById("showScores").innerHTML = savedScores[i];
+    }}
 
-    savedScores = JSON.parse(scores);
-
-    for (var i = 0; i < savedScores.length; i++) {
-      createScoreEl(savedScores[i]);
-    }
 };
 
 // based on button click, starts quiz and timer
@@ -124,15 +132,25 @@ function executeQuiz(){
     document.getElementById("preQuizTitle").innerHTML = "";
     document.getElementById("info").innerHTML = "";
     document.getElementById("start").innerHTML = "";
+    document.getElementById("showScores").setAttribute("class", "hidden");
     document.getElementById("title").innerHTML = "Coding Quiz";
- 
+
+    savedUsers = JSON.parse(localStorage.getItem("savedUsers"));
+    savedScores = JSON.parse(localStorage.getItem("savedScores"));
+    if (!savedUsers) {
+        savedUsers = [];
+        savedScores = [];
+    } 
+    console.log(savedUsers);
+    console.log(savedScores);
+    
     DisplayQuestion();
 }
 
 // function runs through question set
 function DisplayQuestion () {
     if (counter === codeQuestions.length){
-       Score();
+       presentScore();
     } else {
         let displayQuestion = "";
         displayQuestion += codeQuestions[counter].question;
@@ -163,3 +181,5 @@ function DisplayQuestion () {
 
 // Add event listener to start quiz button
 start_btn.addEventListener("click", executeQuiz);
+
+highscore.addEventListener("click", loadScore);
