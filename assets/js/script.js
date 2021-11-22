@@ -38,7 +38,7 @@ const codeQuestions = [
     },
 ];
 
-var defaultTime = 15;
+var defaultTime = 60;
 var start_btn = document.querySelector(".start_btn button");
 var highscore = document.querySelector(".highScore button");
 var timer = defaultTime;
