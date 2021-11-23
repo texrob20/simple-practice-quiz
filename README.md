@@ -33,4 +33,4 @@ The timer begins with a default time that decreases every second until it reache
 The user can retake the quiz by selecting the retake quiz button.
 
 ## Demo
-href=https://github.com/texrob20/simple-practice-quiz/blob/main/assets/qiuz-demo.png
+https://github.com/texrob20/simple-practice-quiz/blob/main/assets/qiuz-demo.png
