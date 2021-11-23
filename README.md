@@ -13,6 +13,11 @@ GIVEN I am taking a code quiz:
 
 In order to meet the required criteria, the site executes a four question quiz and stores the scores.
 
+## Built with:
+- Javascript
+- CSS
+- HTML
+
 ## High Scores
 The function presentScore adds the user's initials and score into a saved array for each.  The saved scores and then saved in localStorage.  When the user clicks the High Scores buttons, all the saved scores are displayed through the function loadScore.
 
@@ -26,3 +31,6 @@ The timer begins with a default time that decreases every second until it reache
 
 ## Retake Quiz
 The user can retake the quiz by selecting the retake quiz button.
+
+## Demo
+https://github.com/texrob20/simple-practice-quiz/tree/main/assets/quiz-demo.png 
