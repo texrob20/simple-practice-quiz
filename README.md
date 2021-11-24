@@ -34,3 +34,6 @@ The user can retake the quiz by selecting the retake quiz button.
 
 ## Demo
 <img src=https://github.com/texrob20/simple-practice-quiz/blob/main/assets/qiuz-demo.png>
+
+## Deployed Application
+https://texrob20.github.io/simple-practice-quiz/
